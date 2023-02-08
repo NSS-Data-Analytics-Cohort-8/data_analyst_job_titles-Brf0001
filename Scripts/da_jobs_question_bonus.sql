@@ -129,7 +129,27 @@ WHERE days_since_posting > 21
 	
 --Answer: 619
 
---  - Disregard any postings where the domain is NULL. 
---  - Order your results so that the domain with the greatest number of `hard to fill` jobs is at the top. 
+-- - Disregard any postings where the domain is NULL. 
+
+SELECT count(days_since_posting)
+FROM data_analyst_jobs
+WHERE days_since_posting > 21
+	AND skill LIKE '%SQL%'
+	AND domain IS NOT NULL;
+	
+--Answer: 403
+
+-- - Order your results so that the domain with the greatest number of `hard to fill` jobs is at the top.
+
+SELECT count(days_since_posting) AS hard_to_fill, domain
+FROM data_analyst_jobs
+WHERE days_since_posting > 21
+	AND skill LIKE '%SQL%'
+	AND domain IS NOT NULL
+GROUP BY domain
+ORDER BY hard_to_fill DESC
+Limit 4;
+	
 --   - Which three industries are in the top 4 on this list? How many jobs have been listed for more than 3 weeks for each of the top 4?
 
+--Answer: Internet and Software 62, Banks and Financial Services 61, Consulting and Financial Services 57, Health Care 52
